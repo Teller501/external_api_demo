@@ -1,6 +1,6 @@
 package dk.kea.external_api_demo.config;
 
-import dk.kea.external_api_demo.dto.Gender;
+import dk.kea.external_api_demo.dto.GenderDTO;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -63,12 +63,12 @@ public class RemoteApiTester implements CommandLineRunner {
         System.out.println(randoms.stream().collect(Collectors.joining(",")));
     }
 
-    Mono<Gender> getGenderForName(String name) {
+    Mono<GenderDTO> getGenderForName(String name) {
         WebClient client = WebClient.create();
-        Mono<Gender> gender = client.get()
+        Mono<GenderDTO> gender = client.get()
                 .uri("https://api.genderize.io?name="+name)
                 .retrieve()
-                .bodyToMono(Gender.class);
+                .bodyToMono(GenderDTO.class);
         return gender;
     }
 
@@ -77,7 +77,7 @@ public class RemoteApiTester implements CommandLineRunner {
 
     public void getGendersBlocking() {
         long start = System.currentTimeMillis();
-        List<Gender> genders = names.stream().map(name -> getGenderForName(name).block()).toList();
+        List<GenderDTO> genders = names.stream().map(name -> getGenderForName(name).block()).toList();
         long end = System.currentTimeMillis();
         System.out.println("Time for six external requests, BLOCKING: "+ (end-start));
     }
@@ -85,8 +85,8 @@ public class RemoteApiTester implements CommandLineRunner {
     public void getGendersNonBlocking() {
         long start = System.currentTimeMillis();
         var genders = names.stream().map(name -> getGenderForName(name)).toList();
-        Flux<Gender> flux = Flux.merge(Flux.concat(genders));
-        List<Gender> res = flux.collectList().block();
+        Flux<GenderDTO> flux = Flux.merge(Flux.concat(genders));
+        List<GenderDTO> res = flux.collectList().block();
         long end = System.currentTimeMillis();
         System.out.println("Time for six external requests, NON-BLOCKING: "+ (end-start));
     }

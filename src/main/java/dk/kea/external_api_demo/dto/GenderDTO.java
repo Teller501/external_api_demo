@@ -9,7 +9,7 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @ToString
-public class Gender {
+public class GenderDTO {
     String gender;
     String name;
     int count;

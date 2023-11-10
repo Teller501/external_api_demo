@@ -1,6 +1,6 @@
 package dk.kea.external_api_demo.api;
 
-import dk.kea.external_api_demo.dto.Person;
+import dk.kea.external_api_demo.entity.Person;
 import dk.kea.external_api_demo.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +16,6 @@ public class PersonController {
 
     @GetMapping("name-info")
     public ResponseEntity<Person> getNameInfo(@RequestParam String name) {
-        return ResponseEntity.ok(personService.getPersonFromExternalAPIS(name));
+        return ResponseEntity.ok(personService.getNameInfo(name));
     }
 }

@@ -7,9 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Country {
-    int count;
+public class AgeDTO {
     String name;
-    String country_id;
-double probability;
+    int age;
+    int count;
 }
